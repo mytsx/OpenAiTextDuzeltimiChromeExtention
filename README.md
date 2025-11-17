@@ -2,13 +2,25 @@
 
 Web sayfalarındaki tüm text input alanlarına AI destekli Türkçe metin düzeltme butonu ekleyen Chrome Extension.
 
+**Version:** 2.0.0
+
 ## Özellikler
 
-- Otomatik buton enjeksiyonu (textarea, input, contenteditable)
-- OpenAI (gpt-4o) ve OpenWebUI desteği
-- Diff gösterimi ile düzeltme önizleme
-- Dinamik içerik desteği (MutationObserver)
-- Türkçe resmi yazışma kurallarına uygun düzeltme
+### Akıllı Buton Enjeksiyonu
+- ✅ Normal textarea ve input alanları
+- ✅ **CKEditor** (4.x ve 5.x)
+- ✅ **Summernote**
+- ✅ **TinyMCE**
+- ✅ **Quill**
+- ✅ Tüm contenteditable alanlar
+- ✅ Dinamik içerik desteği (MutationObserver)
+
+### AI Düzeltme
+- OpenAI GPT-4o ile güçlendirilmiş
+- TDK (Türk Dil Kurumu) kurallarına uygun
+- Resmi yazışma standartlarına uygun
+- Diff gösterimi ile değişiklikleri önizleme
+- JSON response format ile tutarlı sonuçlar
 
 ## Kurulum
 
@@ -23,82 +35,97 @@ Web sayfalarındaki tüm text input alanlarına AI destekli Türkçe metin düze
 
 1. Extension ikonuna tıklayın
 2. "⚙️ Ayarlar" butonuna tıklayın
-3. Provider seçin (OpenAI veya OpenWebUI)
-4. API key'inizi girin
-5. "Kaydet" butonuna tıklayın
-6. "API Bağlantısını Test Et" ile test edin
+3. OpenAI API key'inizi girin (sk-proj-... formatında)
+4. "Kaydet" butonuna tıklayın
+5. "API Bağlantısını Test Et" ile test edin
 
 ## Kullanım
 
+### Normal Text Alanları (textarea, input)
 1. Herhangi bir web sitesindeki text alanına tıklayın
 2. Sağ üstte görünen "🤖 Düzelt" butonuna tıklayın
-3. Düzeltilmiş metni önizleyin
+3. Düzeltilmiş metni diff ile önizleyin
 4. "Kabul Et" veya "İptal" seçin
 
-## Desteklenen Siteler
+### Rich Text Editörler (CKEditor, Summernote, vb.)
+1. Editörün **toolbar**'ında "🤖 Düzelt" butonu otomatik olarak görünür
+2. Metninizi yazın
+3. Toolbar'daki "🤖 Düzelt" butonuna tıklayın
+4. Değişiklikleri önizleyip kabul edin
 
-Extension tüm web sitelerinde çalışır:
-- Gmail
-- Notion
-- Google Docs
-- LinkedIn
-- Twitter/X
-- MigemPortal
-- Ve diğer tüm web siteleri
+## Desteklenen Platformlar
+
+Extension **tüm web sitelerinde** çalışır:
+- ✅ **Gmail** - Email yazma
+- ✅ **Notion** - Quill editör
+- ✅ **WordPress** - CKEditor/TinyMCE
+- ✅ **LinkedIn** - Post ve mesajlar
+- ✅ **Twitter/X** - Tweet yazma
+- ✅ **Google Docs** - Contenteditable
+- ✅ **MigemPortal** - HelpDesk ve formlar
+- ✅ **Drupal, Joomla** - CMS editörleri
+- ✅ Ve diğer tüm web siteleri
 
 ## Proje Yapısı
 
 ```
 .
-├── manifest.json              # Extension yapılandırması
-├── icons/                     # Extension ikonları
-│   ├── icon16.png
-│   ├── icon48.png
-│   └── icon128.png
+├── manifest.json              # Extension yapılandırması (v2.0.0)
+├── CLAUDE.md                  # Claude Code için geliştirici kılavuzu
+├── icons/                     # Extension ikonları (16, 48, 128px)
 ├── content/
-│   ├── content.js            # DOM manipulation, buton ekleme
-│   └── content.css           # Buton ve diff stilleri
+│   ├── content.js            # DOM manipulation, rich editor detection
+│   └── content.css           # Buton ve modal stilleri
 ├── background/
-│   ├── background.js         # API istekleri
-│   ├── openai-provider.js    # OpenAI API client
-│   └── openwebui-provider.js # OpenWebUI API client
+│   ├── background.js         # Message handling, API orchestration
+│   └── openai-provider.js    # OpenAI GPT-4o client
 ├── popup/
-│   ├── popup.html            # Quick toggle UI
-│   ├── popup.js
-│   └── popup.css
+│   ├── popup.html/js/css     # Quick toggle UI
 ├── options/
-│   ├── options.html          # Ayarlar sayfası
-│   ├── options.js
-│   └── options.css
+│   ├── options.html/js/css   # API key management
 ├── lib/
-│   ├── crypto-js.min.js      # Encryption
-│   └── diff.min.js           # Metin karşılaştırma
+│   └── diff.min.js           # Text diffing (jsdiff)
 └── prompts/
-    └── turkish-official.txt  # Türkçe resmi yazışma promptu
+    └── turkish-official.txt  # TDK + resmi yazışma kuralları
 ```
 
 ## Teknik Detaylar
 
-- **Manifest Version**: 3
+- **Manifest Version**: 3 (modern ve güvenli)
+- **Model**: OpenAI GPT-4o (gpt-4o)
+- **Temperature**: 0.3 (tutarlı sonuçlar için)
+- **Response Format**: JSON object
 - **Permissions**: storage, activeTab
-- **Host Permissions**: OpenAI API, localhost (OpenWebUI için)
-- **Content Security Policy**: Güvenli, XSS korumalı
+- **Host Permissions**: https://api.openai.com/*
+- **Content Security Policy**: XSS korumalı
 
 ## Geliştirme
 
 ### Debug
 
-```
-chrome://extensions/ → Extension → "Inspect views: service worker"
-```
-
-Console'da hatalar ve loglar görülebilir.
+- **Background script**: `chrome://extensions/` → Extension → "Inspect views: service worker"
+- **Content script**: Web sayfasında F12 → Console tab
+- **Popup**: Extension ikonuna sağ tık → "Inspect popup"
 
 ### Güncelleme
 
 Değişiklik yaptıktan sonra:
-1. `chrome://extensions/` sayfasında extension'ın yanındaki "Reload" butonuna tıklayın
-2. Sayfayı yenileyin (F5)
+1. `chrome://extensions/` → Extension → 🔄 Reload
+2. Test sayfasını yenile (F5)
+
+### Mimari
+
+```
+Content Script → chrome.runtime.sendMessage({ action: 'correctText', text })
+                ↓
+Background Script → OpenAI API (GPT-4o)
+                ↓
+OpenAI Response → { "corrected_text": "..." }
+                ↓
+Content Script → Diff modal göster
+```
+
+Detaylı bilgi için `CLAUDE.md` dosyasına bakın.
 
 ## Güvenlik
 
@@ -122,18 +149,30 @@ Bu proje eğitim amaçlıdır.
 ## Sorun Giderme
 
 ### "Extension yüklenmiyor"
-- Developer mode aktif mi kontrol edin
-- Manifest.json dosyasının geçerli olduğundan emin olun
+- ✅ Developer mode aktif mi kontrol edin
+- ✅ Manifest.json dosyasının geçerli olduğundan emin olun
+- ✅ Console'da hata mesajı var mı bakın
 
 ### "API hatası alıyorum"
-- API key'in doğru girildiğini kontrol edin
-- OpenAI hesabınızda kredi olduğundan emin olun
-- Network bağlantınızı kontrol edin
+- ✅ API key doğru girildi mi? (sk-proj-... formatında)
+- ✅ OpenAI hesabınızda kredi var mı?
+- ✅ Network bağlantınızı kontrol edin
+- ✅ Background script console'u kontrol edin
 
 ### "Butonlar görünmüyor"
-- Extension'ın aktif olduğunu popup'tan kontrol edin
-- Sayfayı yenileyin (F5)
-- Console'da hata olup olmadığını kontrol edin
+- ✅ Extension popup'tan aktif mi?
+- ✅ Sayfayı yenileyin (F5)
+- ✅ Rich text editörler için 1-2 saniye bekleyin (yüklenme süresi)
+- ✅ Console'da hata olup olmadığını kontrol edin
+
+### "Butonlar iki kez görünüyor"
+- Bu sorun v2.0.0'da düzeltildi
+- Extension'ı reload edin
+- Rich text editörlerde sadece toolbar'da buton görünmeli
+
+### "Diff modal açılmıyor"
+- lib/diff.min.js yüklendi mi kontrol edin
+- Console'da JavaScript hatası var mı bakın
 
 ## İletişim
 
