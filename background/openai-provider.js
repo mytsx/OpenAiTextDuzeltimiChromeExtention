@@ -40,27 +40,31 @@ Aşağıdaki kaynaklara göre düzeltme yap:
 - Sonra genel TDK imla kuralları.`,
 
     async correctText(text, apiKey) {
+        const requestBody = JSON.stringify({
+            model: this.MODEL,
+            messages: [
+                {
+                    role: 'system',
+                    content: this.SYSTEM_PROMPT
+                },
+                {
+                    role: 'user',
+                    content: text
+                }
+            ],
+            response_format: { type: 'json_object' },
+            temperature: 0.3
+        });
+
+        // Headers'ı ayrı oluştur (Chrome Service Worker uyumluluğu için)
+        const headers = new Headers();
+        headers.append('Content-Type', 'application/json; charset=utf-8');
+        headers.append('Authorization', 'Bearer ' + apiKey);
+
         const response = await fetch(`${this.API_BASE_URL}/chat/completions`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${apiKey}`
-            },
-            body: JSON.stringify({
-                model: this.MODEL,
-                messages: [
-                    {
-                        role: 'system',
-                        content: this.SYSTEM_PROMPT
-                    },
-                    {
-                        role: 'user',
-                        content: text
-                    }
-                ],
-                response_format: { type: 'json_object' },
-                temperature: 0.3
-            })
+            headers: headers,
+            body: requestBody
         });
 
         if (!response.ok) {
