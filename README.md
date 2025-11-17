@@ -169,4 +169,6 @@ Bu proje eğitim amaçlıdır.
 
 ## İletişim
 
-Sorularınız için issue açabilirsiniz.
+- **GitHub:** https://github.com/mytsx/OpenAiTextDuzeltimiChromeExtention
+- **Issues:** https://github.com/mytsx/OpenAiTextDuzeltimiChromeExtention/issues
+- **Geliştirici:** Mehmet Yerli

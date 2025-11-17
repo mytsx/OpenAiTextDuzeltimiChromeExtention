@@ -1,0 +1,64 @@
+Chrome Web Store - Detaylı Açıklama
+==========================================
+
+# AI Türkçe Metin Düzeltici
+
+## Öğenin Ne Yaptığı
+
+AI Türkçe Metin Düzeltici, web sitelerindeki zengin metin editörlerine (CKEditor, Summernote, TinyMCE, Quill) otomatik olarak "🤖 Düzelt" butonu ekleyen bir Chrome eklentisidir.
+
+OpenAI'nin GPT-4o modelini kullanarak Türkçe metinlerinizi:
+- TDK (Türk Dil Kurumu) kurallarına uygun düzeltir
+- Resmi yazışma standartlarına uyumlu hale getirir
+- Yazım ve dilbilgisi hatalarını tespit eder
+- Noktalama işaretlerini düzeltir
+- Metninizin anlamını koruyarak sadece daha doğru ve profesyonel hale getirir
+
+## Neden Yüklemeli?
+
+✅ **Profesyonel İçerik:** WordPress, Drupal gibi CMS platformlarında resmi yazışmalarınızı hatasız yazın
+✅ **Zaman Kazanın:** Metninizi manuel olarak kontrol etmek yerine tek tıkla düzeltin
+✅ **TDK Standartları:** Türk Dil Kurumu ve resmi yazışma yönetmeliğine tam uyum
+✅ **Güvenli:** API anahtarınız cihazınızda güvenle saklanır, Chrome'un sync özelliği ile paylaşılmaz
+✅ **Diff Önizleme:** Değişiklikleri kabul etmeden önce görebilirsiniz
+✅ **HTML Koruma:** Bold, italic, linkler gibi formatlamalar korunur
+
+## Nasıl Çalışır?
+
+1. Eklentiyi yükleyin
+2. Ayarlar sayfasından OpenAI API anahtarınızı girin
+3. WordPress, Drupal veya herhangi bir CMS'te editör açın
+4. Editör toolbar'ında görünen "🤖 Düzelt" butonuna tıklayın
+5. Değişiklikleri diff görünümünde inceleyin
+6. "Kabul Et" veya "İptal" seçin
+
+## Desteklenen Editörler
+
+- CKEditor 4.x ve 5.x
+- Summernote
+- TinyMCE
+- Quill
+
+## Önemli Not
+
+Bu eklenti SADECE yukarıdaki zengin metin editörlerinde çalışır. Gmail, LinkedIn gibi normal text alanlarında çalışmaz. Profesyonel içerik yönetim sistemleri için tasarlanmıştır.
+
+## Gizlilik
+
+- API anahtarınız sadece sizin cihazınızda saklanır
+- Metinleriniz OpenAI API'sine gönderilir (OpenAI gizlilik politikası geçerlidir)
+- Eklenti hiçbir veriyi toplamaz veya üçüncü taraflara göndermez
+- Açık kaynak - kodları GitHub'da inceleyebilirsiniz
+
+## Gereksinimler
+
+- OpenAI API anahtarı (ücretli hesap)
+- Internet bağlantısı
+- Chrome tarayıcı
+
+---
+
+Versiyon: 3.1.0
+Geliştirici: Mehmet Yerli
+GitHub: https://github.com/mytsx/OpenAiTextDuzeltimiChromeExtention
+Destek: https://github.com/mytsx/OpenAiTextDuzeltimiChromeExtention/issues
