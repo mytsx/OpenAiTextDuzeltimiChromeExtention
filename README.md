@@ -169,6 +169,6 @@ Bu proje eğitim amaçlıdır.
 
 ## İletişim
 
-- **GitHub:** https://github.com/mytsx/OpenAiTextDuzeltimiChromeExtention *(repo name has typo: Extention)*
-- **Issues:** https://github.com/mytsx/OpenAiTextDuzeltimiChromeExtention/issues
+- **GitHub:** https://github.com/mytsx/OpenAiTextDuzeltimiChromeExtension
+- **Issues:** https://github.com/mytsx/OpenAiTextDuzeltimiChromeExtension/issues
 - **Geliştirici:** Mehmet Yerli

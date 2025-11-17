@@ -259,3 +259,8 @@ Priority order: Official correspondence rules > TDK general rules
 2. **New external APIs:** Add to `host_permissions` in manifest.json
 3. **User input:** All text goes through background script (no direct API calls from content script)
 4. **Storage keys:** Document in STORAGE_KEYS constant, maintain consistency across files
+
+## Repository
+
+- **GitHub:** https://github.com/mytsx/OpenAiTextDuzeltimiChromeExtension
+- **Issues:** https://github.com/mytsx/OpenAiTextDuzeltimiChromeExtension/issues
