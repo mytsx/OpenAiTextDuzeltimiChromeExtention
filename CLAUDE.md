@@ -97,22 +97,22 @@ editor.innerHTML = correctedHTML  // Others
 
 **Solution:** Robust enable/disable mechanism using three guards and observer disconnect:
 ```javascript
-// Guard 1: Check before adding buttons
+// Guard 1: Check before adding buttons (line 33)
 function addButtonsToExistingFields() {
-    if (!isEnabled) return;  // line 33
+    if (!isEnabled) return;
 }
 
-// Guard 2: Check before starting observer
+// Guard 2: Check before starting observer (line 458)
 function observeDOMChanges() {
-    if (!isEnabled) return;  // line 520
+    if (!isEnabled) return;
 }
 
-// Guard 3: Check inside observer callback
+// Guard 3: Check inside observer callback (line 467)
 domObserver = new MutationObserver(mutations => {
-    if (!isEnabled) return;  // line 529
+    if (!isEnabled) return;
 });
 
-// Guard 4: Disconnect observer when disabled
+// Guard 4: Disconnect observer when disabled (line 514)
 function disconnectObserver() {
     if (domObserver) {
         domObserver.disconnect();
@@ -208,9 +208,9 @@ Before committing changes, manually test:
 
 ## Common Issues & Fixes
 
-### "Buttons appearing twice in rich editors"
-- **Cause:** contenteditable not filtered in `isFieldEligible()`
-- **Fix:** Add editor class to filter check (line 151 in content.js)
+### "Duplicate buttons in Quill editor toolbar"
+- **Cause:** detectQuill() checks container but adds toolbar to processedFields
+- **Fix:** Explicitly mark container as processed when adding button to toolbar (fixed in v3.1.0, line 109)
 
 ### "Format loss when accepting corrections"
 - **Cause:** Using `innerText` instead of HTML preservation
@@ -222,11 +222,11 @@ Before committing changes, manually test:
 
 ### "Buttons reappear after disabling"
 - **Cause:** MutationObserver not disconnected
-- **Fix:** Call `disconnectObserver()` when disabled (lines 576-580)
+- **Fix:** Call `disconnectObserver()` when disabled (line 514)
 
 ### "Failed to read headers property" fetch error
 - **Cause:** Object literal headers in Service Worker with non-ASCII chars
-- **Fix:** Use `Headers` constructor (fixed in v3.0.1, openai-provider.js:60-62)
+- **Fix:** Use `Headers` constructor (fixed in v3.0.1, openai-provider.js lines 60-62)
 
 ### "API key not saved" or "syncing to wrong devices"
 - **Cause:** Using sync storage for API keys
