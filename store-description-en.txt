@@ -1,0 +1,64 @@
+Chrome Web Store - Detailed Description (English)
+==========================================
+
+# AI Turkish Text Corrector
+
+## What It Does
+
+AI Turkish Text Corrector is a Chrome extension that automatically adds a "🤖 Düzelt" (Correct) button to rich text editors (CKEditor, Summernote, TinyMCE, Quill) on websites.
+
+Using OpenAI's GPT-4o model, it corrects your Turkish texts according to:
+- TDK (Turkish Language Association) rules
+- Official correspondence standards
+- Spelling and grammar errors
+- Punctuation marks
+- Preserves meaning while making text more accurate and professional
+
+## Why Should You Install It?
+
+✅ **Professional Content:** Write error-free official documents in WordPress, Drupal, and other CMS platforms
+✅ **Save Time:** Correct your text with one click instead of manual proofreading
+✅ **TDK Standards:** Full compliance with Turkish Language Association and official correspondence regulations
+✅ **Secure:** Your API key is stored securely on your device, not synced via Chrome
+✅ **Diff Preview:** Review changes before accepting them
+✅ **HTML Preservation:** Formatting like bold, italic, and links are preserved
+
+## How It Works
+
+1. Install the extension
+2. Enter your OpenAI API key in settings
+3. Open an editor in WordPress, Drupal, or any CMS
+4. Click the "🤖 Düzelt" button that appears in the editor toolbar
+5. Review changes in diff view
+6. Select "Accept" or "Cancel"
+
+## Supported Editors
+
+- CKEditor 4.x and 5.x
+- Summernote
+- TinyMCE
+- Quill
+
+## Important Note
+
+This extension works ONLY with the rich text editors listed above. It does NOT work with plain text areas like Gmail or LinkedIn. It is designed for professional content management systems.
+
+## Privacy
+
+- Your API key is stored only on your device
+- Your texts are sent to OpenAI API (OpenAI privacy policy applies)
+- The extension does NOT collect or send any data to third parties
+- Open source - you can review the code on GitHub
+
+## Requirements
+
+- OpenAI API key (paid account)
+- Internet connection
+- Chrome browser
+
+---
+
+Version: 3.1.0
+Developer: Mehmet Yerli
+GitHub: https://github.com/mytsx/OpenAiTextDuzeltimiChromeExtention
+Support: https://github.com/mytsx/OpenAiTextDuzeltimiChromeExtention/issues
