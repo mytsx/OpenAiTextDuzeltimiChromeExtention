@@ -124,6 +124,30 @@
         if (field.style.display === 'none' || field.offsetParent === null) return false;
         if (field.closest('[data-ai-corrector-ignore]')) return false;
 
+        // Rich text editör içindeki contenteditable alanları atla (onlar için toolbar'a buton ekliyoruz)
+        if (field.contentEditable === 'true' || field.getAttribute('contenteditable') === 'true') {
+            // CKEditor editable alanı mı?
+            if (field.classList.contains('ck-content') || field.classList.contains('ck-editor__editable')) {
+                return false;
+            }
+            // Summernote editable alanı mı?
+            if (field.classList.contains('note-editable')) {
+                return false;
+            }
+            // Quill editable alanı mı?
+            if (field.classList.contains('ql-editor')) {
+                return false;
+            }
+            // TinyMCE editable alanı mı?
+            if (field.id && field.id.includes('tinymce')) {
+                return false;
+            }
+            // Genel kontrol: rich text editör container içinde mi?
+            if (field.closest('.ck-editor, .note-editor, .ql-container, .tox-tinymce')) {
+                return false;
+            }
+        }
+
         // Çok küçük alanları atla (search box vb.)
         if (field.offsetWidth < 100 || field.offsetHeight < 30) return false;
 
