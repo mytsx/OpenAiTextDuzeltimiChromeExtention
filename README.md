@@ -135,6 +135,17 @@ Detaylı bilgi için `CLAUDE.md` dosyasına bakın.
 - XSS koruması (DOMParser kullanımı)
 - Input sanitization
 
+## Gizlilik Politikası
+
+Uzantı minimal veri toplar ve gizliliğinizi korur:
+
+- ✅ API key ve ayarlar sadece cihazınızda saklanır
+- ✅ Düzeltilecek metin sadece OpenAI'a gönderilir (sizin kontrolünüzde)
+- ❌ Hiçbir veri bizim sunucularımıza gönderilmez
+- ❌ Analitik, tracking veya reklam yok
+
+Detaylı bilgi için [PRIVACY.md](PRIVACY.md) dosyasına bakın.
+
 ## Lisans
 
 Bu proje eğitim amaçlıdır.
