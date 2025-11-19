@@ -2,6 +2,7 @@ importScripts('openai-provider.js');
 
 const STORAGE_KEYS = {
     OPENAI_KEY: 'openai_api_key',
+    ENABLED: 'ai_corrector_enabled',
     CUSTOM_PROMPT: 'custom_system_prompt'
 };
 
@@ -10,6 +11,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         handleCorrectText(request.text)
             .then(correctedText => sendResponse({ correctedText }))
             .catch(error => sendResponse({ error: error.message }));
+        return true;
+    }
+
+    if (request.action === 'getDefaultPrompt') {
+        sendResponse({ prompt: OpenAIProvider.DEFAULT_SYSTEM_PROMPT });
         return true;
     }
 });

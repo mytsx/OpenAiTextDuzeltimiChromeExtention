@@ -13,10 +13,19 @@ function loadSettings() {
     // Tüm ayarları local storage'dan oku
     chrome.storage.local.get([STORAGE_KEYS.OPENAI_KEY, STORAGE_KEYS.CUSTOM_PROMPT], (result) => {
         document.getElementById('openai-key').value = result[STORAGE_KEYS.OPENAI_KEY] || '';
-        
+
         // Prompt yükle
         const currentPrompt = result[STORAGE_KEYS.CUSTOM_PROMPT];
-        document.getElementById('system-prompt').value = currentPrompt || OpenAIProvider.DEFAULT_SYSTEM_PROMPT;
+        if (currentPrompt) {
+            document.getElementById('system-prompt').value = currentPrompt;
+        } else {
+            // Varsayılan promptu background script'ten al
+            chrome.runtime.sendMessage({ action: 'getDefaultPrompt' }, (response) => {
+                if (response && response.prompt) {
+                    document.getElementById('system-prompt').value = response.prompt;
+                }
+            });
+        }
     });
 }
 
@@ -33,35 +42,70 @@ function saveApiKey() {
 }
 
 function savePrompt() {
-    const customPrompt = document.getElementById('system-prompt').value;
+    const customPrompt = document.getElementById('system-prompt').value.trim();
 
-    // Prompt boyutu büyük olabileceği için local storage kullanıyoruz (Sync limiti 8KB)
-    chrome.storage.local.set({ 
-        [STORAGE_KEYS.CUSTOM_PROMPT]: customPrompt
-    }, () => {
-        if (chrome.runtime.lastError) {
-            showStatus('Hata: ' + chrome.runtime.lastError.message, 'error');
-        } else {
-            showStatus('Prompt başarıyla kaydedildi.', 'success');
+    // Boş prompt - varsayılana dön
+    if (!customPrompt) {
+        chrome.storage.local.remove([STORAGE_KEYS.CUSTOM_PROMPT], () => {
+            if (chrome.runtime.lastError) {
+                showStatus('Hata: ' + chrome.runtime.lastError.message, 'error');
+            } else {
+                showStatus('Prompt temizlendi. Varsayılan prompt kullanılacak.', 'success');
+            }
+        });
+        return;
+    }
+
+    // Varsayılan prompt ile karşılaştır - aynıysa kaydetme (fork prevention)
+    chrome.runtime.sendMessage({ action: 'getDefaultPrompt' }, (response) => {
+        if (response && response.prompt) {
+            const defaultPrompt = response.prompt.trim();
+
+            if (customPrompt === defaultPrompt) {
+                // Varsayılandan farklı değil, key'i sil
+                chrome.storage.local.remove([STORAGE_KEYS.CUSTOM_PROMPT], () => {
+                    if (chrome.runtime.lastError) {
+                        showStatus('Hata: ' + chrome.runtime.lastError.message, 'error');
+                    } else {
+                        showStatus('Varsayılan prompt kullanılıyor. Gelecekteki güncellemeler otomatik uygulanacak.', 'success');
+                    }
+                });
+            } else {
+                // Gerçekten özelleştirilmiş, kaydet
+                // Prompt boyutu büyük olabileceği için local storage kullanıyoruz (Sync limiti 8KB)
+                chrome.storage.local.set({
+                    [STORAGE_KEYS.CUSTOM_PROMPT]: customPrompt
+                }, () => {
+                    if (chrome.runtime.lastError) {
+                        showStatus('Hata: ' + chrome.runtime.lastError.message, 'error');
+                    } else {
+                        showStatus('Özelleştirilmiş prompt kaydedildi.', 'success');
+                    }
+                });
+            }
         }
     });
 }
 
 function resetPromptToDefault() {
     if (confirm('Varsayılan prompta dönmek istediğinize emin misiniz?')) {
-        document.getElementById('system-prompt').value = OpenAIProvider.DEFAULT_SYSTEM_PROMPT;
-        // Kullanıcıya kaydetmesi gerektiğini hatırlat
-        showStatus('Varsayılan prompt yüklendi. Kalıcı olması için "Promptu Kaydet" butonuna basın.', 'info');
+        // Varsayılan promptu background script'ten al
+        chrome.runtime.sendMessage({ action: 'getDefaultPrompt' }, (response) => {
+            if (response && response.prompt) {
+                document.getElementById('system-prompt').value = response.prompt;
+                // Kullanıcıya kaydetmesi gerektiğini hatırlat
+                showStatus('Varsayılan prompt yüklendi. Kalıcı olması için "Promptu Kaydet" butonuna basın.', 'info');
+            }
+        });
     }
 }
 
 function testConnection() {
     showStatus('Test ediliyor...', 'info');
-    
-    // Test için o anki promptu kullan (kaydedilmemiş olsa bile)
-    // Ancak background script sadece kaydedilmiş promptu kullanır.
-    // Bu yüzden test mesajında promptu göndermiyoruz, background script storage'dan okuyacak.
-    
+
+    // Test, background script'in storage'dan okuduğu promptu kullanır
+    // Kaydedilmemiş değişiklikler test edilmez
+
     chrome.runtime.sendMessage(
         { action: 'correctText', text: 'Bu bir test metnidir.' },
         response => {
