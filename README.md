@@ -23,7 +23,7 @@ Web sayfalarındaki zengin metin düzenleyicilere (CKEditor, Summernote, TinyMCE
 - **Özelleştirilebilir Sistem Promptu** (v3.3.0) - Kendi düzeltme kurallarınızı tanımlayın
 - Diff gösterimi ile değişiklikleri önizleme
 - JSON response format ile tutarlı sonuçlar
-- HTML format koruması (bold, italic, linkler korunur)
+- **Akıllı HTML Format Koruması:** Kelime sayısı değişmediğinde bold, italic, linkler korunur. Kelime ekleme/çıkarma durumunda kullanıcı uyarıyla plain text'e dönüştürülür.
 
 ## Kurulum
 
@@ -38,13 +38,13 @@ Web sayfalarındaki zengin metin düzenleyicilere (CKEditor, Summernote, TinyMCE
 
 1. Extension ikonuna tıklayın
 2. "⚙️ Ayarlar" butonuna tıklayın
-3. **OpenAI API key'inizi girin** (sk-proj-... formatında)
+3. **OpenAI API key'inizi girin** (sk-proj-... formatında) ve "API Key Kaydet" butonuna tıklayın
 4. **(İsteğe Bağlı)** Sistem promptunu özelleştirin:
    - Varsayılan: TDK + Resmi yazışma kuralları
    - Özel: Kendi düzeltme kurallarınızı tanımlayabilirsiniz
+   - "Promptu Kaydet" ile kaydedin veya "Varsayılanı Yükle" ile sıfırlayın
    - Boş bırakırsanız varsayılan kullanılır
-5. "Kaydet" butonuna tıklayın
-6. "API Bağlantısını Test Et" ile test edin
+5. "API Bağlantısını Test Et" ile bağlantıyı doğrulayın
 
 ## Kullanım
 
@@ -69,7 +69,7 @@ Extension **SADECE rich text editör kullanan web sitelerinde** çalışır:
 
 ```
 .
-├── manifest.json              # Extension yapılandırması (v2.0.0)
+├── manifest.json              # Extension yapılandırması (v3.3.0)
 ├── CLAUDE.md                  # Claude Code için geliştirici kılavuzu
 ├── icons/                     # Extension ikonları (16, 48, 128px)
 ├── content/
@@ -81,7 +81,7 @@ Extension **SADECE rich text editör kullanan web sitelerinde** çalışır:
 ├── popup/
 │   ├── popup.html/js/css     # Quick toggle UI
 ├── options/
-│   ├── options.html/js/css   # API key management
+│   ├── options.html/js/css   # Settings page: API key & custom prompt management
 ├── lib/
 │   └── diff.min.js           # Text diffing (jsdiff)
 └── prompts/
