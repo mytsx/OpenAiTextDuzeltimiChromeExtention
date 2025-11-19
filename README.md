@@ -56,14 +56,11 @@ Web sayfalarındaki zengin metin düzenleyicilere (CKEditor, Summernote, TinyMCE
 
 ## Desteklenen Platformlar
 
-Extension **SADECE rich text editör kullanan web sitelerinde** çalışır:
-- ✅ **WordPress** - CKEditor/TinyMCE toolbar
-- ✅ **Drupal, Joomla** - CMS editör toolbar'ları
-- ✅ **Notion** - Quill editör (eğer varsa)
-- ✅ **MigemPortal** - HelpDesk (eğer CKEditor/TinyMCE kullanıyorsa)
-- ❌ **Gmail** - Normal textarea (desteklenmiyor)
-- ❌ **LinkedIn, Twitter/X** - Normal text input (desteklenmiyor)
-- ❌ **Google Docs** - Özel editör (desteklenmiyor)
+Rich text editör kullanan web siteleri:
+- **WordPress** - CKEditor/TinyMCE toolbar
+- **Drupal, Joomla** - CMS editör toolbar'ları
+- **Notion** - Quill editör
+- **Diğer CMS'ler** - CKEditor, Summernote, TinyMCE veya Quill kullanan tüm platformlar
 
 ## Proje Yapısı
 
