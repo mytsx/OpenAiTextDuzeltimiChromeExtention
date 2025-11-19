@@ -128,3 +128,12 @@
 .ai-corrector-btn-secondary:hover {
     background: #e0e0e0;
 }
+
+.ai-corrector-warning {
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 15px;
+    color: #856404;
+}

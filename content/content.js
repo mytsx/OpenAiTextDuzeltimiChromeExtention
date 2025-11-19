@@ -13,9 +13,7 @@
         INIT_DELAY: 1000,           // Initial delay for editor detection
         DEBOUNCE_DELAY: 500,        // Debounce delay for DOM mutations
         // Text validation
-        MIN_TEXT_LENGTH: 10,        // Minimum characters for correction
-        // HTML mapping
-        WORD_DIFF_THRESHOLD: 0.5    // Max allowed word count difference (50%)
+        MIN_TEXT_LENGTH: 10         // Minimum characters for correction
     };
 
     let isEnabled = true;
@@ -538,7 +536,7 @@
 
         // Warning message if formatting will be lost
         const warningHtml = wordCountChanged ? `
-            <div class="ai-corrector-warning" style="background: #fff3cd; border: 1px solid #ffc107; border-radius: 6px; padding: 12px; margin-bottom: 15px;">
+            <div class="ai-corrector-warning">
                 <strong>⚠️ Uyarı:</strong> Düzeltme kelime sayısını değiştirdi.
                 <br>Formatlar (kalın, italik, linkler) korunmayabilir.
             </div>
