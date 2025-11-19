@@ -60,5 +60,5 @@ Bu eklenti SADECE yukarıdaki zengin metin editörlerinde çalışır. Gmail, Li
 
 Versiyon: 3.1.0
 Geliştirici: Mehmet Yerli
-GitHub: https://github.com/mytsx/OpenAiTextDuzeltimiChromeExtension
-Destek: https://github.com/mytsx/OpenAiTextDuzeltimiChromeExtension/issues
+GitHub: https://github.com/mytsx/duzelt-ai
+Destek: https://github.com/mytsx/duzelt-ai/issues

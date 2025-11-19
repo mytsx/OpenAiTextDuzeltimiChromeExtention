@@ -2,7 +2,8 @@ importScripts('openai-provider.js');
 
 const STORAGE_KEYS = {
     OPENAI_KEY: 'openai_api_key',
-    ENABLED: 'ai_corrector_enabled'
+    ENABLED: 'ai_corrector_enabled',
+    CUSTOM_PROMPT: 'custom_system_prompt'
 };
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -10,6 +11,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         handleCorrectText(request.text)
             .then(correctedText => sendResponse({ correctedText }))
             .catch(error => sendResponse({ error: error.message }));
+        return true;
+    }
+
+    if (request.action === 'getDefaultPrompt') {
+        sendResponse({ prompt: OpenAIProvider.DEFAULT_SYSTEM_PROMPT });
         return true;
     }
 });
@@ -21,15 +27,17 @@ async function handleCorrectText(text) {
         throw new Error('OpenAI API key girilmemiş. Lütfen ayarlardan API key girin.');
     }
 
-    return await OpenAIProvider.correctText(text, config.openaiKey);
+    return await OpenAIProvider.correctText(text, config.openaiKey, config.systemPrompt);
 }
 
 async function loadConfig() {
     return new Promise((resolve) => {
-        // API key'i local storage'dan oku (güvenlik için)
-        chrome.storage.local.get([STORAGE_KEYS.OPENAI_KEY], (result) => {
+        // Tüm ayarları local storage'dan oku
+        // Not: Prompt boyutu sync storage limitini (8KB) aşabildiği için local storage kullanıyoruz.
+        chrome.storage.local.get([STORAGE_KEYS.OPENAI_KEY, STORAGE_KEYS.CUSTOM_PROMPT], (result) => {
             resolve({
-                openaiKey: result[STORAGE_KEYS.OPENAI_KEY] || null
+                openaiKey: result[STORAGE_KEYS.OPENAI_KEY] || null,
+                systemPrompt: result[STORAGE_KEYS.CUSTOM_PROMPT] || null
             });
         });
     });
