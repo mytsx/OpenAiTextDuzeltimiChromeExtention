@@ -308,6 +308,30 @@
         // Rich text editörler - HTML formatını koru
         const correctedHTML = mapTextToHTML(originalData.html, originalData.text, correctedText);
 
+        // If word count changed, mapping failed to preserve formatting
+        // Fall back to plain text with user warning (already shown in modal)
+        if (correctedHTML === null) {
+            // Apply as plain text - formatting will be lost
+            const plainHTML = escapeHtmlSafe(correctedText);
+
+            switch (editorType) {
+                case 'ckeditor4':
+                    fieldOrEditor.setData(plainHTML);
+                    break;
+                case 'ckeditor5':
+                case 'summernote':
+                case 'quill':
+                    fieldOrEditor.innerHTML = plainHTML;
+                    fieldOrEditor.dispatchEvent(new Event('input', { bubbles: true }));
+                    break;
+                case 'tinymce':
+                    fieldOrEditor.setContent(plainHTML);
+                    break;
+            }
+            return;
+        }
+
+        // Normal case: formatting preserved
         switch (editorType) {
             case 'ckeditor4':
                 fieldOrEditor.setData(correctedHTML);
@@ -341,19 +365,14 @@
         const originalWords = originalText.split(/\s+/).filter(w => w.length > 0);
         const correctedWords = correctedText.split(/\s+/).filter(w => w.length > 0);
 
-        // FIX: If word counts differ, fall back to safe mode
+        // FIX: If word counts differ, preserve original formatting
         // Insertions/deletions cannot be reliably mapped with position-only strategy
-        // Examples that would fail:
-        // - "Merhaba Ali" → "Merhaba Ali Bey" (insertion: "Bey" lost)
-        // - "a b c d" → "a b d" (deletion: becomes "a b d d")
+        // Rather than destroying all rich-text formatting (bold, italic, links, lists),
+        // we preserve the original HTML and let the user decide via modal
         if (originalWords.length !== correctedWords.length) {
-            return escapeHtmlSafe(correctedText);
-        }
-
-        // Eğer kelime sayısı çok farklıysa, direkt düz metin dön (güvenli mod)
-        // This threshold is now redundant but kept for extreme cases
-        if (Math.abs(originalWords.length - correctedWords.length) > originalWords.length * CONFIG.WORD_DIFF_THRESHOLD) {
-            return escapeHtmlSafe(correctedText);
+            // Return null to signal "cannot map safely"
+            // The caller (showDiffModal) will show a warning to the user
+            return null;
         }
 
         // SECURITY: Use DOMParser to safely parse HTML without executing scripts
@@ -366,9 +385,9 @@
         const positionMap = new Map();
         for (let i = 0; i < originalWords.length; i++) {
             if (originalWords[i] !== correctedWords[i]) {
-                // SECURITY: Sanitize AI output but preserve actual characters
-                // Use textContent to prevent HTML injection while keeping readability
-                positionMap.set(i, sanitizeTextForDisplay(correctedWords[i]));
+                // SECURITY: textContent insertion (line 401) prevents HTML injection
+                // No need for sanitization - textContent auto-escapes
+                positionMap.set(i, correctedWords[i]);
             }
         }
 
@@ -404,6 +423,8 @@
             });
 
             if (modified) {
+                // SECURITY: textContent auto-escapes HTML, preventing XSS
+                // Special chars like < > & are displayed correctly without double-escaping
                 node.textContent = newWords.join('');
             }
         } else if (node.nodeType === Node.ELEMENT_NODE) {
@@ -416,13 +437,6 @@
             const children = Array.from(node.childNodes);
             children.forEach(child => replaceTextNodesInDOM(child, positionMap, context));
         }
-    }
-
-    function sanitizeTextForDisplay(text) {
-        // SECURITY: Use textContent for safe insertion (auto-escapes HTML)
-        // This prevents XSS while keeping special chars readable (< stays as <, not &lt;)
-        // textContent already prevents HTML injection, no need for double-escaping
-        return text;
     }
 
     function escapeHtmlSafe(text) {
@@ -468,7 +482,12 @@
             }
         }
 
-        const modal = createDiffModal(original, corrected);
+        // Check if word count changed (formatting cannot be preserved)
+        const originalWords = original.split(/\s+/).filter(w => w.length > 0);
+        const correctedWords = corrected.split(/\s+/).filter(w => w.length > 0);
+        const wordCountChanged = originalWords.length !== correctedWords.length;
+
+        const modal = createDiffModal(original, corrected, wordCountChanged);
         // Store button reference on modal for cleanup
         modal._associatedButton = button;
         document.body.appendChild(modal);
@@ -505,7 +524,7 @@
         document.addEventListener('keydown', handleEscape);
     }
 
-    function createDiffModal(original, corrected) {
+    function createDiffModal(original, corrected, wordCountChanged = false) {
         const modal = document.createElement('div');
         modal.id = CONFIG.MODAL_ID;
         modal.className = 'ai-corrector-modal';
@@ -517,12 +536,21 @@
             return `<span style="color: ${color}; text-decoration: ${decoration};">${escapeHtml(part.value)}</span>`;
         }).join('');
 
+        // Warning message if formatting will be lost
+        const warningHtml = wordCountChanged ? `
+            <div class="ai-corrector-warning" style="background: #fff3cd; border: 1px solid #ffc107; border-radius: 6px; padding: 12px; margin-bottom: 15px;">
+                <strong>⚠️ Uyarı:</strong> Düzeltme kelime sayısını değiştirdi.
+                <br>Formatlar (kalın, italik, linkler) korunmayabilir.
+            </div>
+        ` : '';
+
         modal.innerHTML = `
             <div class="ai-corrector-modal-content">
                 <div class="ai-corrector-modal-header">
                     <h3>AI Metin Düzeltme Sonucu</h3>
                 </div>
                 <div class="ai-corrector-modal-body">
+                    ${warningHtml}
                     <div class="ai-corrector-diff">
                         ${diffHtml}
                     </div>
