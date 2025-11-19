@@ -42,73 +42,73 @@ main {
 }
 
 .settings-section {
-    margin-bottom: 30px;
-    padding-bottom: 30px;
-    border-bottom: 1px solid #e0e0e0;
-}
-
-.settings-section:last-of-type {
-    border-bottom: none;
-}
-
-.settings-section h2 {
-    font-size: 20px;
-    color: #333;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     margin-bottom: 20px;
+}
+
+h2 {
+    margin-top: 0;
+    color: #2c3e50;
+    font-size: 1.2em;
+    border-bottom: 2px solid #ecf0f1;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
-.form-group:last-child {
-    margin-bottom: 0;
-}
-
-.form-group label {
+label {
     display: block;
-    font-size: 14px;
-    font-weight: 600;
-    color: #555;
-    margin-bottom: 8px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #34495e;
 }
 
-.form-group input[type="text"],
-.form-group input[type="password"] {
+input[type="text"],
+input[type="password"],
+textarea,
+select {
     width: 100%;
-    padding: 12px;
-    border: 2px solid #e0e0e0;
-    border-radius: 8px;
+    padding: 8px;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
     font-size: 14px;
-    transition: border-color 0.3s ease;
+    box-sizing: border-box;
 }
 
-.form-group input[type="text"]:focus,
-.form-group input[type="password"]:focus {
-    outline: none;
-    border-color: #667eea;
+textarea {
+    font-family: monospace;
+    resize: vertical;
 }
 
-.form-group input[type="radio"],
-.form-group input[type="checkbox"] {
-    margin-right: 8px;
-}
-
-.form-group label:has(input[type="radio"]),
-.form-group label:has(input[type="checkbox"]) {
-    display: inline-flex;
-    align-items: center;
-    margin-right: 20px;
-    font-weight: normal;
-    cursor: pointer;
-}
-
-.form-group small {
-    display: block;
+.prompt-actions {
+    display: flex;
+    gap: 10px;
     margin-top: 5px;
-    font-size: 12px;
-    color: #888;
+    margin-bottom: 5px;
 }
+
+.prompt-history-select {
+    flex-grow: 1;
+}
+
+.small {
+    font-size: 0.8em;
+    padding: 4px 8px;
+}
+
+small {
+    display: block;
+    color: #7f8c8d;
+    margin-top: 5px;
+    font-size: 0.85em;
+}
+
 
 .actions {
     display: flex;

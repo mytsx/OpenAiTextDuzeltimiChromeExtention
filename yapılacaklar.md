@@ -16,3 +16,12 @@ bu kontrolü biraz daha sağlamlaştırabilir misin pencereyi biraz daha daralta
 ## Questions
 
 -- bu uzantıyı yayınlamada bir problem var mı bir kural ihlali vs olmuş oluyor mu?
+
+-----------
+
+### Tamamlananlar (v3.3.0)
+
+- [x] Repo adı `duzelt-ai` olarak güncellendi.
+- [x] XSS güvenlik açıkları giderildi (DOMParser).
+- [x] Kelime eşleştirme algoritması iyileştirildi.
+- [x] **Özelleştirilebilir Sistem Promptu**: Kullanıcılar artık ayarlar sayfasından AI promptunu değiştirebilir, varsayılana dönebilir ve geçmiş promptlarını görebilir.

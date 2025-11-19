@@ -3,7 +3,7 @@ const OpenAIProvider = {
     MODEL: 'gpt-4o',
     TEMPERATURE: 0.3,  // Low temperature for consistency in corrections
 
-    SYSTEM_PROMPT: `Sen, Türkçe RESMÎ YAZIŞMALAR için özelleştirilmiş bir metin düzeltme asistanısın.
+    DEFAULT_SYSTEM_PROMPT: `Sen, Türkçe RESMÎ YAZIŞMALAR için özelleştirilmiş bir metin düzeltme asistanısın.
 
 ==================================================
 1. GENEL AMAÇ
@@ -222,13 +222,13 @@ Kurallar:
 - Kullanıcı metni tamamen boşsa, yine JSON döndür ama "corrected_text" değeri boş string olabilir:
   {"corrected_text":""}`,
 
-    async correctText(text, apiKey) {
+    async correctText(text, apiKey, systemPrompt = null) {
         const requestBody = JSON.stringify({
             model: this.MODEL,
             messages: [
                 {
                     role: 'system',
-                    content: this.SYSTEM_PROMPT
+                    content: systemPrompt || this.DEFAULT_SYSTEM_PROMPT
                 },
                 {
                     role: 'user',

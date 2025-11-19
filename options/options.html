@@ -21,27 +21,30 @@
                     <input type="password" id="openai-key" placeholder="sk-proj-...">
                     <small>OpenAI API key'iniz güvenli olarak saklanır</small>
                 </div>
-            </section>
-
-            <section class="settings-section">
-                <h2>Genel Ayarlar</h2>
-                <div class="form-group">
-                    <label>
-                        <input type="checkbox" id="enabled" checked>
-                        Extension'ı etkinleştir
-                    </label>
+                <div class="actions" style="margin-top: 15px; display: flex; gap: 10px;">
+                    <button id="save-api-btn" class="btn-primary">API Key Kaydet</button>
+                    <button id="test-btn" class="btn-secondary">API Bağlantısını Test Et</button>
                 </div>
             </section>
 
-            <div class="actions">
-                <button id="save-btn" class="btn-primary">Kaydet</button>
-                <button id="test-btn" class="btn-secondary">API Bağlantısını Test Et</button>
-            </div>
+            <section class="settings-section">
+                <h2>Sistem Prompt Ayarları</h2>
+                <div class="form-group">
+                    <label for="system-prompt">Özelleştirilmiş Prompt</label>
+                    <textarea id="system-prompt" rows="10" placeholder="Varsayılan prompt kullanılacak..."></textarea>
+                    <div class="prompt-actions">
+                        <button id="save-prompt-btn" class="btn-primary small">Promptu Kaydet</button>
+                        <button id="reset-prompt-btn" class="btn-secondary small">Varsayılanı Yükle</button>
+                    </div>
+                    <small>AI'ın nasıl davranacağını özelleştirebilirsiniz. Boş bırakırsanız varsayılan resmi yazışma promptu kullanılır.</small>
+                </div>
+            </section>
 
             <div id="status" class="status"></div>
         </main>
     </div>
 
+    <script src="../background/openai-provider.js"></script>
     <script src="options.js"></script>
 </body>
 </html>
